@@ -22,7 +22,7 @@ class Check extends Command {
   }
 
   async run (message, args, level, reply) { // eslint-disable-line no-unused-vars
-    const user = message.mentions.members.first() || message.guild.members.get(args[0]) || message.member;
+    const user = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || message.member;
     if (!user) return reply("You haven't specified any user.");
 
     Infractions.findOne({

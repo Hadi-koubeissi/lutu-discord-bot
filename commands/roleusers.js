@@ -20,10 +20,10 @@ class Roleusers extends Command {
 
   async run (message, args, level, reply) { // eslint-disable-line no-unused-vars
     const roleName = message.content.split(" ").slice(1).join(" ");
-    if (!message.guild.roles.find(role => role.name === roleName)) return message.channel.send(`the role **${roleName}** was not found, please check input and capitalization.`);
+    if (!message.guild.roles.cache.find(role => role.name === roleName)) return message.channel.send(`the role **${roleName}** was not found, please check input and capitalization.`);
 
-    const membersWithRole = message.guild.members.filter(member => {
-      return member.roles.find(role => role.name === roleName);
+    const membersWithRole = message.guild.members.cache.filter(member => {
+      return member.roles.cache.find(role => role.name === roleName);
     }).map(member => {
       return member.user.tag;
     });
@@ -31,7 +31,7 @@ class Roleusers extends Command {
     const embed = new Discord.MessageEmbed({
       "title": `Users with the ${roleName} role`,
       "description": `**${membersWithRole.join("\n").substring(0, 2000)}**`,
-      "color": `${message.guild.roles.find(role => role.name === roleName).color}`
+      "color": `${message.guild.roles.cache.find(role => role.name === roleName).color}`
     });
 
     return reply(embed);

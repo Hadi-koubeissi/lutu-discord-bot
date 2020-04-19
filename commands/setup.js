@@ -20,7 +20,7 @@ class Setup extends Command {
   async run (message, args, level, reply) { // eslint-disable-line no-unused-vars
     if (!args[0]) return reply("Correct usage : `setup mutedrole`.");
     if (args[0].toLowerCase() === "mutedrole") {
-      let mutedRole = message.guild.roles.find(r => r.name === "Muted");
+      let mutedRole = message.guild.roles.cache.find(r => r.name === "Muted");
       if (mutedRole) {
         const ms = await reply("The 'Muted' role already exists. Do you want to overwrite its permissions and make it Lutu's 'Muted' role?\n\n- Yes\n- No");
         await ms.react("✅");

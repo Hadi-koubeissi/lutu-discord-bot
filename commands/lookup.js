@@ -21,7 +21,7 @@ class Lookup extends Command {
   }
 
   async run (message, args, level, reply) { // eslint-disable-line no-unused-vars
-    const usr = message.mentions.members.first() || message.guild.members.get(args[0]) || args[0]; // eslint-disable-line
+    const usr = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || args[0]; // eslint-disable-line
     if (!usr) return reply("Looks like you didn't specify a valid user.");
 
     if (usr === args[0]) {

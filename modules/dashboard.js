@@ -152,10 +152,10 @@ module.exports = (client) => {
 
   app.get("/stats", (req, res) => {
     const duration = moment.duration(client.uptime).format(" D [days], H [hrs], m [mins], s [secs]");
-    const members = client.guilds.reduce((p, c) => p + c.memberCount, 0);
-    const textChannels = client.channels.filter(c => c.type === "text").size;
-    const voiceChannels = client.channels.filter(c => c.type === "voice").size;
-    const guilds = client.guilds.size;
+    const members = client.guilds.cache.reduce((p, c) => p + c.memberCount, 0);
+    const textChannels = client.channels.cache.filter(c => c.type === "text").size;
+    const voiceChannels = client.channels.cache.filter(c => c.type === "voice").size;
+    const guilds = client.guilds.cache.size;
     renderTemplate(res, req, "stats.ejs", {
       stats: {
         servers: guilds,
@@ -181,13 +181,13 @@ module.exports = (client) => {
   });
 
   app.get("/members/:guildID", checkAuth, async (req, res) => {
-    const guild = client.guilds.get(req.params.guildID);
+    const guild = client.guilds.cache.get(req.params.guildID);
     if (!guild) return res.redirect("/dashboard");
-    renderTemplate(res, req, "guild/members.ejs", { members: guild.members });
+    renderTemplate(res, req, "guild/members.ejs", { members: guild.members.cache });
   });
 
   app.get("/dashboard/:guildID", checkAuth, async (req, res) => {
-    const guild = client.guilds.get(req.params.guildID);
+    const guild = client.guilds.cache.get(req.params.guildID);
     if (!guild) return res.redirect("/dashboard");
     const isManaged = guild && !!guild.member(req.user.id) ? guild.member(req.user.id).permissions.has("MANAGE_GUILD") : false;
     if (!isManaged && !req.session.isAdmin) res.redirect("/dashboard");
@@ -202,7 +202,7 @@ module.exports = (client) => {
   });
 
   app.get("/stats/:guildID", checkAuth, async (req, res) => {
-    const guild = client.guilds.get(req.params.guildID);
+    const guild = client.guilds.cache.get(req.params.guildID);
     if (!guild) return res.redirect("/dashboard");
     const isManaged = guild && !!guild.member(req.user.id) ? guild.member(req.user.id).permissions.has("MANAGE_GUILD") : false;
     if (!isManaged && !req.session.isAdmin) res.redirect("/");
@@ -217,8 +217,8 @@ module.exports = (client) => {
       guild: guild,
       memberCount: guild.memberCount,
       name: guild.name,
-      textChannels: guild.channels.filter(c => c.type === "text").size,
-      voiceChannels: guild.channels.filter(c => c.type === "voice").size,
+      textChannels: guild.channels.cache.filter(c => c.type === "text").size,
+      voiceChannels: guild.channels.cache.filter(c => c.type === "voice").size,
       owner: guild.owner.user,
       acronym: guild.nameAcronym,
       region: guild.region,
@@ -293,14 +293,14 @@ module.exports = (client) => {
       .addField("[Complaint]:", `▫ Complaint ID: ${complaintID}\n▫ Complaint Author: ${req.user.username}#${req.user.discriminator}\n▫ Complaint Author ID: ${req.user.id}\n▫ Complaint Reason: ${reason}\n▫ Complaint Proofs: ${proofs.join(", ")}`)
       .setColor("#36393e")
       .setTimestamp();
-    client.channels.get(client.config.newReportEmbed).send(reportEmbed);
+    client.channels.cache.get(client.config.newReportEmbed).send(reportEmbed);
 
 
     renderTemplate(res, req, "report.ejs", { success: "User has been reported.", error: null });
   });
 
   app.post("/dashboard/:guildID", checkAuth, async (req, res) => {
-    const guild = client.guilds.get(req.params.guildID);
+    const guild = client.guilds.cache.get(req.params.guildID);
     if (!guild) return res.redirect("/dashboard");
     const isManaged = guild && !!guild.member(req.user.id) ? guild.member(req.user.id).permissions.has("MANAGE_GUILD") : false;
     if (!isManaged && !req.session.isAdmin) res.redirect("/");
@@ -336,7 +336,7 @@ module.exports = (client) => {
 
   app.get("/admin/:guildID/leave", checkAuth, async (req, res) => {
     if (!req.session.isAdmin) res.redirect("/dashboard");
-    const guild = client.guilds.get(req.params.guildID);
+    const guild = client.guilds.cache.get(req.params.guildID);
     if (!guild) return res.status(404).redirect("/admin");
     await guild.leave();
     res.redirect("/admin");
@@ -344,9 +344,9 @@ module.exports = (client) => {
 
   app.get("/admin/:guildID/warp", checkAuth, async (req, res) => {
     if (!req.session.isAdmin) res.redirect("/dashboard");
-    const guild = client.guilds.get(req.params.guildID);
+    const guild = client.guilds.cache.get(req.params.guildID);
     if (!guild) return res.status(404).redirect("/admin");
-    const channel = guild.channels.filter(c => c.type === "text").first();
+    const channel = guild.channels.cache.filter(c => c.type === "text").first();
     const invite = await channel.createInvite().catch(e => client.users.get(req.user.id).send(`Couldn't send an invite because ${e}`));
     client.users.get(req.user.id).send(`Invite Generated to \`${guild.name}\` is https://discord.gg/${invite.code}/.`);
     res.redirect("/admin");

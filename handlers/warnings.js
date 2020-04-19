@@ -17,9 +17,9 @@ class warningHandler {
     const muteUser = async (client, member, duration) => { // eslint-disable-line no-unused-vars
       const guild = member.guild;
 
-      const muteRole = guild.roles.find(r => r.name === "Muted");
+      const muteRole = guild.roles.cache.find(r => r.name === "Muted");
       if (!muteRole)  return;
-      if (member.roles.has(muteRole.id)) return;
+      if (member.roles.cache.has(muteRole.id)) return;
 
       try {
         ms(ms(duration));

@@ -20,7 +20,7 @@ class Roleinfo extends Command {
 
   async run (message, args, level, reply) { // eslint-disable-line no-unused-vars
     let roleName = message.content.split(" ").slice(1).join(" ");
-	  let thisrole =	message.guild.roles.find(role => role.name === roleName)
+	  let thisrole =	message.guild.roles.cache.find(role => role.name === roleName)
     if(!thisrole) return message.channel.send(`the role **${roleName}** was not found, please check input and capitalization.`)
 
   	let rolename = thisrole.name

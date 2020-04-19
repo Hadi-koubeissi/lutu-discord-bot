@@ -49,11 +49,11 @@ module.exports = class {
           member.guild.owner.user.send(warnEmbed).catch(e=>e);
         }
 	    if (s.joinrole != "none" ){
-	 	    member.roles.add(member.guild.roles.find(role => role.id === s.joinrole));
+	 	    member.roles.add(member.guild.roles.cache.find(role => role.id === s.joinrole));
    	  }
 
         if (s.checkpoint === "on") {
-          const channel = member.guild.channels.get(s.checkpoint_logChannel);
+          const channel = member.guild.channels.cache.get(s.checkpoint_logChannel);
           if (!channel) return;
 
           let checkEmbed = new Discord.MessageEmbed() // eslint-disable-line

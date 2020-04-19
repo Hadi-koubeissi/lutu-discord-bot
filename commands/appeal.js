@@ -68,7 +68,7 @@ class Appeal extends Command {
         if (conf === false) return reply("Prompt timed out.");
 
         if (conf.toLowerCase() === "yes") {
-          await this.client.channels.get(this.client.config.appealEmbedChannel).send(previewEmbed);
+          await this.client.channels.cache.get(this.client.config.appealEmbedChannel).send(previewEmbed);
         } else {
           return reply("Aborted!");
         }

@@ -27,7 +27,7 @@ class Warn extends Command {
   }
 
   async run (message, args, level, reply) { // eslint-disable-line no-unused-vars
-    const user = message.mentions.members.first() || message.guild.members.get(args[0]) || message.guild.members.get(args[1]);
+    const user = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || message.guild.members.cache.get(args[1]);
     if (!user) return reply("You haven't specified a user!");
     if (user.id === message.author.id) return reply("I can not allow self-harm. I mean why would you like to warn yourself..");
     let warnings = parseInt(args[0]);

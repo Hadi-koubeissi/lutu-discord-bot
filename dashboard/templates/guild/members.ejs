@@ -23,7 +23,7 @@
     %>
 
     <%
-      var roles = member.roles.map(r => r.name);
+      var roles = member.roles.cache.map(r => r.name);
       const indx = roles.findIndex(r => r === "@everyone");
       roles.splice(indx, 1);
     %>
@@ -31,7 +31,7 @@
       <th scope="row"><%= index++ %></th>
       <td><%= member.user.tag %></td>
       <td><%=  status[member.user.presence.status] || member.user.presence.status %></td>
-      <td><%= member.roles.size === 1 ? "None" : roles.join(", ") %></td>
+      <td><%= member.roles.cache.size === 1 ? "None" : roles.join(", ") %></td>
     </tr>
 
     <%

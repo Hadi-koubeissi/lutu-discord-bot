@@ -27,7 +27,7 @@ class Scan extends Command {
     const mssg = await reply("Scanning all of the members . This might take a while depending on the size of your server. Estimated time: **" + (message.guild.memberCount * 70 / 1000) + "** seconds.");
     if (mode === "warn") {
       const arr = [];
-      for (const member of message.guild.members) {
+      for (const member of message.guild.members.cache) {
         await BanList.findOne({
           reportedID: member[0]
         }, async (err, u) => {
@@ -51,7 +51,7 @@ class Scan extends Command {
       return reply(`Sucessfully scanned **${message.guild.memberCount}** members and **${arr.length}** members on the ban list have been detected.`);
     } else if (mode === "ban") {
       const arr = [];
-      for (const member of message.guild.members) {
+      for (const member of message.guild.members.cache) {
         await BanList.findOne({
           reportedID: member[0]
         }, async (err, u) => {

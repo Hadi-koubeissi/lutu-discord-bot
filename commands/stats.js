@@ -34,8 +34,8 @@ class Stats extends Command {
       .setDescription(`
 Memory Usage: ${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB
 Uptime: ${time}
-Channel Count: ${this.client.channels.size.toLocaleString()}
-Server Count: ${this.client.guilds.size.toLocaleString()}
+Channel Count: ${this.client.channels.cache.size.toLocaleString()}
+Server Count: ${this.client.guilds.cache.size.toLocaleString()}
 User Count: ${users.toLocaleString()}
 Discord.Js Version: v${version}
 Node.JS Version: ${process.version}

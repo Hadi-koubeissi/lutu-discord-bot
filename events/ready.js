@@ -31,9 +31,9 @@ module.exports = class {
 
     const statusArray = [
       (client) => client.user.setActivity("Lutu.gq | ?help", { type: "WATCHING" }),
-      (client) => client.user.setActivity(`${this.client.guilds.size} servers | ?help`, { type: "WATCHING" }),
-      (client) => client.user.setActivity(`${this.client.channels.size} channels | ?help`, { type: "WATCHING" }),
-      (client) => client.user.setActivity(`${this.client.users.size} users | ?help`, { type: "WATCHING" })
+      (client) => client.user.setActivity(`${this.client.guilds.cache.size} servers | ?help`, { type: "WATCHING" }),
+      (client) => client.user.setActivity(`${this.client.channels.cache.size} channels | ?help`, { type: "WATCHING" }),
+      (client) => client.user.setActivity(`${this.client.users.cache.size} users | ?help`, { type: "WATCHING" })
     ];
 
     var pick = 0;
@@ -44,10 +44,10 @@ module.exports = class {
     }, 20000);
 
     let users = 0;
-    this.client.guilds.map(g => users += g.memberCount);
+    this.client.guilds.cache.map(g => users += g.memberCount);
 
     this.client.dashboard = require("../modules/dashboard.js")(this.client);
-    this.client.logger.log(`Logged in as ${this.client.user.tag}! Serving ${this.client.guilds.size} Servers and ${users} Users.`, "ready");
+    this.client.logger.log(`Logged in as ${this.client.user.tag}! Serving ${this.client.guilds.cache.size} Servers and ${users} Users.`, "ready");
     this.client.readyState = true;
   }
 };

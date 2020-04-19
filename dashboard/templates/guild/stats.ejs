@@ -56,9 +56,9 @@
         <hr>
         <h4><strong>Member Count</strong>: <%= memberCount.toLocaleString() %></h4>
         <hr>
-        <h4><strong>Human Count</strong>: <%= guild.members.filter(m => m.user.bot === false).size.toLocaleString() %></h4>
+        <h4><strong>Human Count</strong>: <%= guild.members.cache.filter(m => m.user.bot === false).size.toLocaleString() %></h4>
         <hr>
-        <h4><strong>Bot Count</strong>: <%= guild.members.filter(m => m.user.bot === true).size.toLocaleString() %></h4>
+        <h4><strong>Bot Count</strong>: <%= guild.members.cache.fislter(m => m.user.bot === true).size.toLocaleString() %></h4>
         <hr>
         <h4><strong>Voice Channels</strong>: <%= voiceChannels %></h4>
         <hr>

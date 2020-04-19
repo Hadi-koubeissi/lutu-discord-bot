@@ -19,7 +19,7 @@ class Ban extends Command {
   }
 
   async run (message, args, level, reply) { // eslint-disable-line no-unused-vars
-    const user = message.mentions.members.first() || message.guild.members.get(args[0]);
+    const user = message.mentions.members.first() || message.guild.members.cache.get(args[0]);
     let reason = args.slice(1).join(" ");
     if (!user) return reply("Please specify a user to ban.");
     if (!reason) reason = "None Provided";

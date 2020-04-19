@@ -61,7 +61,7 @@ class Logger {
       toSend.setDescription(`🏳 Infractions Remove (Pradoning)\n**Target**: ${this.options.member.tag} (ID: ${this.options.member.id})\n**Moderator**: ${this.options.moderator.tag} (ID: ${this.options.moderator.id})\n**Reason**: ${this.options.reason}\n**Amount**: ${this.options.amount}\n**Time**: ${timestamp}`);
     }
 
-    const logChannel = this.options.client.channels.get(guildSettings.logsChannel);
+    const logChannel = this.options.client.channels.cache.get(guildSettings.logsChannel);
     if (logChannel) logChannel.send(toSend);
   }
 

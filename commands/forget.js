@@ -20,7 +20,7 @@ class Forget extends Command {
   }
 
   async run (message, args, level, reply) { // eslint-disable-line no-unused-vars
-    const user = message.mentions.members.first() || message.guild.members.get(args[1]);
+    const user = message.mentions.members.first() || message.guild.members.cache.get(args[1]);
     if (!user) return reply("You haven't specified a valid user.");
 
     let warnsToR = parseInt(args[0]);

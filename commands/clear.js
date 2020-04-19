@@ -20,7 +20,7 @@ class Clear extends Command {
   }
 
   async run (message, args, level, reply) { // eslint-disable-line no-unused-vars
-    const user = message.mentions.members.first() || message.guild.members.get(args[1]);
+    const user = message.mentions.members.first() || message.guild.members.cache.get(args[1]);
     var amount = parseInt(message.content.split(" ")[0]) ? parseInt(message.content.split(" ")[0]) : parseInt(message.content.split(" ")[1]);
     if (user) {
       var reason = args.slice(2).join(" ") || "Not specified.";

@@ -20,7 +20,7 @@ class Mute extends Command {
   }
 
   async run (message, args, level, reply) { // eslint-disable-line no-unused-vars
-    const tomute = message.mentions.members.first() || message.guild.members.get(args[0]);
+    const tomute = message.mentions.members.first() || message.guild.members.cache.get(args[0]);
 
     if (!tomute) return reply("You haven't specified any user.");
     if (message.author.id === tomute.id) return reply("I cannot allow any self-harm.");
